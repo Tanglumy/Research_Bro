@@ -91,7 +91,7 @@ class KnowledgeGraph(BaseModel):
 class LiteratureGap(BaseModel):
     """Identified gap in existing literature."""
     description: str
-    missing_combinations: List[Dict[str, str]] = Field(default_factory=list)
+    missing_combinations: List[str] = Field(default_factory=list)
     unexplored_populations: List[str] = Field(default_factory=list)
     methodological_gaps: List[str] = Field(default_factory=list)
     theoretical_gaps: List[str] = Field(default_factory=list)

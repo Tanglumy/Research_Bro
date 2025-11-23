@@ -1,0 +1,21 @@
+{
+  "id": "e6cbacce-33cf-4521-ba32-f1418fd73bb0",
+  "name": "Final Integration Test",
+  "status": "created",
+  "research_question": {
+    "id": "2c633a94-860e-48bf-90bf-4390e276c50b",
+    "raw_text": "How do working memory and attention interact in cognitive control?",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T18:07:43.817312"
+  },
+  "literature_landscape": null,
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T18:07:43.817408",
+  "updated_at": "2025-11-23T18:07:43.817414"
+}

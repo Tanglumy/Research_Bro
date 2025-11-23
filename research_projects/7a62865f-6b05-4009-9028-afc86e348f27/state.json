@@ -1,0 +1,21 @@
+{
+  "id": "7a62865f-6b05-4009-9028-afc86e348f27",
+  "name": "Research Project - 11/23/2025",
+  "status": "created",
+  "research_question": {
+    "id": "949c1ac3-c40c-43cc-bdb3-b2380ba2b712",
+    "raw_text": "Does cognitive reappraisal reduce anxiety in social situations?",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T10:28:11.711574"
+  },
+  "literature_landscape": null,
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T10:28:11.711666",
+  "updated_at": "2025-11-23T10:28:11.711669"
+}

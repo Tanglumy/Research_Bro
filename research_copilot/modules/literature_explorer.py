@@ -9,6 +9,7 @@ import uuid
 from typing import Dict, Any, List
 
 from spoon_ai.llm import LLMManager
+from spoon_ai.schema import Message
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -23,12 +24,14 @@ from models import (
     Operationalization
 )
 
+
+# Import Google Scholar search (fast SerpAPI-based search)
 try:
-    from spoon_toolkits.data_platforms.Research import ResearchAcademicSearchTool
-    TOOLKIT_AVAILABLE = True
+    from .google_scholar_search import search_multiple_queries
+    SEARCH_AVAILABLE = True
 except ImportError:
-    TOOLKIT_AVAILABLE = False
-    logging.warning("Research toolkit not available. Install spoon-toolkit for full functionality.")
+    SEARCH_AVAILABLE = False
+    logging.debug("Google Scholar search not available.")
 
 logger = logging.getLogger(__name__)
 
@@ -43,11 +46,7 @@ class LiteratureExplorer:
             llm_manager: LLM manager for text generation
         """
         self.llm = llm_manager
-        if TOOLKIT_AVAILABLE:
-            self.search_tool = ResearchAcademicSearchTool()
-        else:
-            self.search_tool = None
-        logger.info("LiteratureExplorer initialized")
+        logger.info("LiteratureExplorer initialized with Google Scholar search")
     
     async def explore(self, research_question: ResearchQuestion) -> LiteratureLandscape:
         """Execute the complete literature exploration workflow.
@@ -124,19 +123,19 @@ Focus on:
 Return as a JSON array of strings."""
         
         response = await self.llm.chat(
-            messages=[{"role": "user", "content": prompt}],
+            messages=[Message(role="user", content=prompt)],
             temperature=0.3
         )
         
         # Parse constructs from response
         import json
         try:
-            constructs = json.loads(response)
+            constructs = json.loads(response.content)
             if isinstance(constructs, dict) and "constructs" in constructs:
                 constructs = constructs["constructs"]
         except json.JSONDecodeError:
             # Fallback: extract from text
-            constructs = [c.strip() for c in response.split("\n") if c.strip() and not c.startswith("{")]
+            constructs = [c.strip() for c in response.content.split("\n") if c.strip() and not c.startswith("{")]
             constructs = [c.lstrip("-•*123456789. ") for c in constructs if len(c) > 2]
         
         logger.debug(f"Extracted constructs: {constructs}")
@@ -178,14 +177,22 @@ Return as JSON array of objects with 'source', 'target', 'relation_type' fields.
 Only include well-established theoretical relationships."""
             
             response = await self.llm.chat(
-                messages=[{"role": "user", "content": prompt}],
+                messages=[Message(role="user", content=prompt)],
                 temperature=0.3
             )
             
             # Parse relationships
             import json
             try:
-                relationships = json.loads(response)
+                # Clean response content - sometimes LLM wraps JSON in markdown
+                content = response.content.strip()
+                if content.startswith("```"):
+                    # Remove markdown code blocks
+                    lines = content.split("\n")
+                    content = "\n".join(lines[1:-1]) if len(lines) > 2 else content
+                    content = content.replace("```json", "").replace("```", "").strip()
+                
+                relationships = json.loads(content)
                 if isinstance(relationships, dict) and "relationships" in relationships:
                     relationships = relationships["relationships"]
                 
@@ -201,13 +208,15 @@ Only include well-established theoretical relationships."""
                             relation_type=rel.get("relation_type", "associated_with")
                         )
                         graph.add_edge(edge)
-            except (json.JSONDecodeError, KeyError) as e:
-                logger.warning(f"Failed to parse relationships: {e}")
+                logger.debug(f"Added {len(graph.edges)} relationships to knowledge graph")
+            except (json.JSONDecodeError, KeyError, TypeError) as e:
+                logger.debug(f"Could not parse relationships from LLM response, continuing without them. Response was: {response.content[:200]}")
+                # Continue without relationships - knowledge graph will have nodes but no edges
         
         return graph
     
     async def _search_literature(self, constructs: List[str]) -> Dict[str, Any]:
-        """Search academic literature for constructs.
+        """Search academic literature for constructs using Google Scholar.
         
         Args:
             constructs: List of constructs to search
@@ -215,42 +224,29 @@ Only include well-established theoretical relationships."""
         Returns:
             Dictionary with search results and citations
         """
-        if not self.search_tool:
-            logger.warning("Academic search tool not available, using mock data")
+        if not SEARCH_AVAILABLE:
+            logger.debug("Google Scholar search not available, using mock data")
             return {"papers": [], "citations": []}
         
-        # Search for each construct and combinations
-        search_queries = constructs[:3]  # Limit to top 3
+        # Build search queries from constructs
+        search_queries = []
+        
+        # Individual construct searches (top 3)
+        for construct in constructs[:3]:
+            search_queries.append(construct)
+        
+        # Combination search if multiple constructs
         if len(constructs) >= 2:
             search_queries.append(f"{constructs[0]} AND {constructs[1]}")
         
-        all_papers = []
-        all_citations = []
-        
-        for query in search_queries:
-            try:
-                results = await self.search_tool.execute(query=query, limit=10)
-                if hasattr(results, 'output') and results.output:
-                    papers = results.output if isinstance(results.output, list) else []
-                    all_papers.extend(papers)
-                    
-                    # Extract citations
-                    for paper in papers:
-                        if isinstance(paper, dict):
-                            citation = {
-                                "title": paper.get("title", ""),
-                                "authors": paper.get("authors", ""),
-                                "year": paper.get("year", ""),
-                                "url": paper.get("url", "")
-                            }
-                            all_citations.append(citation)
-            except Exception as e:
-                logger.error(f"Search failed for '{query}': {e}")
-        
-        return {
-            "papers": all_papers,
-            "citations": all_citations[:20]  # Limit citations
-        }
+        try:
+            # Use the Google Scholar search
+            results = await search_multiple_queries(search_queries, papers_per_query=10)
+            logger.info(f"Found {len(results.get('papers', []))} papers from Google Scholar")
+            return results
+        except Exception as e:
+            logger.error(f"Google Scholar search failed: {e}")
+            return {"papers": [], "citations": []}
     
     async def _identify_frameworks(self, literature_data: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Identify theoretical frameworks from literature.
@@ -279,13 +275,13 @@ For each framework, provide:
 Return as JSON array of objects with 'name' and 'description' fields."""
         
         response = await self.llm.chat(
-            messages=[{"role": "user", "content": prompt}],
+            messages=[Message(role="user", content=prompt)],
             temperature=0.4
         )
         
         import json
         try:
-            frameworks = json.loads(response)
+            frameworks = json.loads(response.content)
             if isinstance(frameworks, dict) and "frameworks" in frameworks:
                 frameworks = frameworks["frameworks"]
             return frameworks[:4]
@@ -312,13 +308,13 @@ Return as JSON object where keys are constructs and values are arrays of scale n
 Example: {{"anxiety": ["STAI", "GAD-7"], "attachment": ["ECR-R", "AAI"]}}"""
         
         response = await self.llm.chat(
-            messages=[{"role": "user", "content": prompt}],
+            messages=[Message(role="user", content=prompt)],
             temperature=0.3
         )
         
         import json
         try:
-            measures_map = json.loads(response)
+            measures_map = json.loads(response.content)
         except json.JSONDecodeError:
             # Fallback
             for construct in constructs:
@@ -353,13 +349,13 @@ For each paradigm, provide:
 Return as JSON array of objects with 'name' and 'description' fields."""
         
         response = await self.llm.chat(
-            messages=[{"role": "user", "content": prompt}],
+            messages=[Message(role="user", content=prompt)],
             temperature=0.4
         )
         
         import json
         try:
-            paradigms = json.loads(response)
+            paradigms = json.loads(response.content)
             if isinstance(paradigms, dict) and "paradigms" in paradigms:
                 paradigms = paradigms["paradigms"]
             return paradigms[:3]
@@ -398,13 +394,13 @@ Return as JSON with fields: 'description', 'missing_combinations', 'unexplored_p
 Each field except 'description' should be an array of strings."""
         
         response = await self.llm.chat(
-            messages=[{"role": "user", "content": prompt}],
+            messages=[Message(role="user", content=prompt)],
             temperature=0.5
         )
         
         import json
         try:
-            gaps_data = json.loads(response)
+            gaps_data = json.loads(response.content)
             return LiteratureGap(
                 description=gaps_data.get("description", "Several research gaps identified"),
                 missing_combinations=gaps_data.get("missing_combinations", []),
@@ -458,8 +454,8 @@ Write a clear, informative summary that:
 Use professional academic tone."""
         
         summary = await self.llm.chat(
-            messages=[{"role": "user", "content": prompt}],
+            messages=[Message(role="user", content=prompt)],
             temperature=0.6
         )
         
-        return summary
+        return summary.content
