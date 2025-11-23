@@ -1,0 +1,21 @@
+{
+  "id": "fec595a8-f7df-4a58-849a-96f36dabbd55",
+  "name": "Test Project",
+  "status": "created",
+  "research_question": {
+    "id": "9b0637da-bc54-46d7-a6f0-2e85adaed4a9",
+    "raw_text": "Test question",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T10:29:34.527350"
+  },
+  "literature_landscape": null,
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T10:29:34.527492",
+  "updated_at": "2025-11-23T10:29:34.527494"
+}

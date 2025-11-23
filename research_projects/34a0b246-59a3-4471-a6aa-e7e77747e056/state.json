@@ -1,0 +1,21 @@
+{
+  "id": "34a0b246-59a3-4471-a6aa-e7e77747e056",
+  "name": "Backend Test After Restart",
+  "status": "created",
+  "research_question": {
+    "id": "99094299-bb50-46e2-9fb1-781a3a82973e",
+    "raw_text": "How does mindfulness meditation affect stress responses?",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T17:47:36.808126"
+  },
+  "literature_landscape": null,
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T17:47:36.809304",
+  "updated_at": "2025-11-23T17:47:36.809309"
+}

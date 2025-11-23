@@ -1,0 +1,21 @@
+{
+  "id": "5db3fa94-290d-4bfc-9fa2-eea4327affb9",
+  "name": "Post-Fix Integration Test",
+  "status": "created",
+  "research_question": {
+    "id": "5bc55723-60c6-474d-a4ce-e378b0baf9b6",
+    "raw_text": "What cognitive mechanisms support episodic memory retrieval in older adults?",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T18:17:40.648163"
+  },
+  "literature_landscape": null,
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T18:17:40.648238",
+  "updated_at": "2025-11-23T18:17:40.648240"
+}
