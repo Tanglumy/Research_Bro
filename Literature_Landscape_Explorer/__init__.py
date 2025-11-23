@@ -1,3 +1,12 @@
+"""Module 1: Literature Landscape Explorer
+
+Retrieves papers, extracts concepts, builds knowledge graph, identifies research gaps.
+
+Main Functions:
+- run(project) -> ProjectState: Main orchestration function
+- run_with_summary(project) -> (ProjectState, summary): Run with metrics
+"""
+
 from __future__ import annotations
 
 import logging
@@ -41,36 +50,11 @@ async def _search_academic(query: str) -> List[dict]:
         return []
 
 
-async def run(project: ProjectState) -> ProjectState:
-    """Literature module: concept mapping + optional academic search enrichment."""
-    constructs = project.rq.parsed_constructs if project.rq else []
-    nodes: List[ConceptNode] = [
-        ConceptNode(id=f"concept_{i}", label=c, type="construct")
-        for i, c in enumerate(constructs, start=1)
-    ]
-    edges: List[ConceptEdge] = [
-        ConceptEdge(source=nodes[i].id, target=nodes[j].id, relation_type="associated_with")
-        for i in range(len(nodes))
-        for j in range(i + 1, len(nodes))
-    ]
+# Import run and run_with_summary from run module
+from .run import run, run_with_summary
 
-    citations = await _search_academic(project.rq.raw_text if project.rq else "")
-    if citations:
-        for node in nodes:
-            node.linked_papers = [c.get("link") or c.get("url") or c.get("title", "") for c in citations][:3]
-        project.audit_log.append(
-            AuditEntry(
-                message=f"Literature module retrieved {len(citations)} results from academic search",
-                level="info",
-            )
-        )
-    else:
-        project.audit_log.append(
-            AuditEntry(
-                message="Literature module used constructs only (no search results or search failed)",
-                level="warning",
-            )
-        )
-
-    project.concepts = {"nodes": nodes, "edges": edges}
-    return project
+# Export for external use
+__all__ = [
+    "run",
+    "run_with_summary",
+]
