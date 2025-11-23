@@ -1,0 +1,21 @@
+{
+  "id": "bc64e794-142b-4b1a-a142-7f3728b260fa",
+  "name": "Research Project - 2025/11/23",
+  "status": "created",
+  "research_question": {
+    "id": "d090ae47-fb5a-4d20-96c9-b34bbf008c97",
+    "raw_text": "test",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T10:22:04.560941"
+  },
+  "literature_landscape": null,
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T10:22:04.561190",
+  "updated_at": "2025-11-23T10:22:04.561192"
+}
