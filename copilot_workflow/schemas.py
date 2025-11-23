@@ -73,6 +73,11 @@ class Measure(BaseModel):
 class SampleSizePlan(BaseModel):
     assumed_effect_size: Optional[str] = None
     per_condition_range: Optional[List[int]] = None
+    # Module 3 fields (new format)
+    effect_size: Optional[str] = None
+    total_n: Optional[int] = None
+    per_condition_n: Optional[int] = None
+    recommendations: Optional[Dict[str, Dict]] = None
 
 
 class ExperimentDesign(BaseModel):
