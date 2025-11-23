@@ -1,7 +1,7 @@
 """Centralized configuration management for Research Copilot.
 
 Handles loading and validation of:
-- LLM provider keys (Gemini - required)
+- LLM provider keys (OpenAI - required)
 - Toolkit service keys (Research, storage, social - optional)
 - Application settings (debug mode, retry limits, etc.)
 """
@@ -20,11 +20,11 @@ class ProviderConfig:
     """Configuration for LLM and service providers."""
     
     # Required providers
-    gemini_api_key: Optional[str] = None
+    openai_api_key: Optional[str] = None
     
     # Optional toolkit services
     Research_api_key: Optional[str] = None
-    openai_api_key: Optional[str] = None
+    gemini_api_key: Optional[str] = None
     anthropic_api_key: Optional[str] = None
     deepseek_api_key: Optional[str] = None
     
@@ -79,9 +79,9 @@ class ConfigManager:
             self._load_env_file(env_file)
         
         # Load configuration values
-        self.config.gemini_api_key = os.getenv("GEMINI_API_KEY")
-        self.config.Research_api_key = os.getenv("Research_API_KEY")
         self.config.openai_api_key = os.getenv("OPENAI_API_KEY")
+        self.config.Research_api_key = os.getenv("Research_API_KEY")
+        self.config.gemini_api_key = os.getenv("GEMINI_API_KEY")
         self.config.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
         self.config.deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
         
@@ -128,17 +128,10 @@ class ConfigManager:
         """
         errors = []
         
-        # Check required providers
-        if not self.config.gemini_api_key:
-            errors.append(
-                "GEMINI_API_KEY not found in environment. "
-                "This is required for LLM-powered operations. "
-                "Please add it to your .env file or set the environment variable."
-            )
-        else:
+        # Check LLM providers (at least one required)
+        if self.config.gemini_api_key:
             self.config.available_providers.append("gemini")
         
-        # Check optional providers (log warnings, don't fail)
         if self.config.openai_api_key:
             self.config.available_providers.append("openai")
         
@@ -147,6 +140,13 @@ class ConfigManager:
         
         if self.config.deepseek_api_key:
             self.config.available_providers.append("deepseek")
+        
+        # Require at least one LLM provider
+        if not self.config.available_providers:
+            errors.append(
+                "No LLM provider configured. Set at least one of: "
+                "GEMINI_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or DEEPSEEK_API_KEY in .env"
+            )
         
         # Check optional tools
         if self.config.Research_api_key:
@@ -181,8 +181,8 @@ class ConfigManager:
             API key if available, None otherwise
         """
         key_map = {
-            "gemini": self.config.gemini_api_key,
             "openai": self.config.openai_api_key,
+            "gemini": self.config.gemini_api_key,
             "anthropic": self.config.anthropic_api_key,
             "deepseek": self.config.deepseek_api_key,
         }

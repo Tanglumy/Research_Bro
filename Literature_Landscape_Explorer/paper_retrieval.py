@@ -6,16 +6,17 @@ using the WebSearchTool and provides structured metadata for downstream analysis
 
 import asyncio
 import logging
+import math
 import re
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
 try:
-    import requests
-    REQUESTS_AVAILABLE = True
+    import httpx
+    HTTPX_AVAILABLE = True
 except ImportError:
-    REQUESTS_AVAILABLE = False
-    logging.warning("requests library not available. Paper retrieval will be limited.")
+    HTTPX_AVAILABLE = False
+    logging.warning("httpx library not available. Paper retrieval will be limited.")
 
 from copilot_workflow.config import get_config
 
@@ -74,9 +75,9 @@ async def retrieve_papers(
     """
     config = get_config()
     
-    # Check if requests is available
-    if not REQUESTS_AVAILABLE:
-        logger.warning("requests library not available")
+    # Check if httpx is available
+    if not HTTPX_AVAILABLE:
+        logger.warning("httpx library not available")
         return []
     
     # Build search query from constructs
@@ -110,7 +111,7 @@ async def retrieve_papers(
 
 
 async def _fetch_papers_from_openalex(query: str, limit: int) -> List[Paper]:
-    """Fetch papers from OpenAlex API.
+    """Fetch papers from OpenAlex API using concurrent async requests.
     
     Args:
         query: Search query string
@@ -119,36 +120,59 @@ async def _fetch_papers_from_openalex(query: str, limit: int) -> List[Paper]:
     Returns:
         List of Paper objects
     """
-    # OpenAlex API endpoint
+    if limit <= 0:
+        return []
+    
     url = "https://api.openalex.org/works"
+    per_page = min(limit, 50)  # OpenAlex max is 50 per page
+    total_pages = math.ceil(limit / per_page)
     
-    # Build query parameters
-    params = {
-        "search": query,
-        "per_page": min(limit, 50),  # OpenAlex max is 50 per page
-        "filter": "type:article",  # Only articles
-        "sort": "cited_by_count:desc",  # Most cited first
-        "mailto": "contact@sylph.ai"  # Polite pool (faster response)
-    }
+    papers: List[Paper] = []
     
-    # Make request
-    response = requests.get(url, params=params, timeout=30)
-    response.raise_for_status()
+    # Use async httpx client with concurrent requests for faster fetching
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        tasks = []
+        for page in range(1, total_pages + 1):
+            params = {
+                "search": query,
+                "page": page,
+                "per_page": per_page,
+                "filter": "type:article",  # Only articles
+                "sort": "cited_by_count:desc",  # Most cited first
+                "mailto": "contact@sylph.ai"  # Polite pool
+            }
+            tasks.append(client.get(url, params=params))
+        
+        # Fetch all pages concurrently
+        responses = await asyncio.gather(*tasks, return_exceptions=True)
     
-    data = response.json()
-    
-    # Parse results
-    papers = []
-    for work in data.get("results", []):
-        try:
-            paper = _parse_openalex_work(work)
-            if paper:
-                papers.append(paper)
-        except Exception as e:
-            logger.warning(f"Failed to parse OpenAlex work: {e}")
+    # Process responses
+    for idx, resp in enumerate(responses):
+        if isinstance(resp, Exception):
+            logger.warning(f"OpenAlex page {idx+1} request failed: {resp}")
             continue
+        
+        try:
+            resp.raise_for_status()
+            data = resp.json()
+        except Exception as e:
+            logger.warning(f"OpenAlex page {idx+1} invalid response: {e}")
+            continue
+        
+        for work in data.get("results", []):
+            try:
+                paper = _parse_openalex_work(work)
+                if paper:
+                    papers.append(paper)
+            except Exception as e:
+                logger.warning(f"Failed to parse OpenAlex work: {e}")
+                continue
+            
+            # Stop if we've reached the limit
+            if len(papers) >= limit:
+                return papers[:limit]
     
-    return papers
+    return papers[:limit]
 
 
 def _parse_openalex_work(work: Dict[str, Any]) -> Optional[Paper]:

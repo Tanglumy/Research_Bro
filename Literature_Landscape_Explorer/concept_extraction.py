@@ -1,4 +1,4 @@
-"""Concept extraction from academic papers using Gemini.
+"""Concept extraction from academic papers using OpenAI.
 
 Analyzes paper abstracts to extract:
 - Theoretical frameworks
@@ -83,7 +83,7 @@ async def extract_concepts_from_papers(
     papers: List[Paper],
     max_retries: int = 3
 ) -> ConceptExtractionResult:
-    """Extract concepts from a list of papers using Gemini.
+    """Extract concepts from a list of papers using OpenAI.
     
     Args:
         papers: List of Paper objects with abstracts
@@ -103,8 +103,8 @@ async def extract_concepts_from_papers(
             frameworks=[], constructs=[], measures=[], paradigms=[], relationships=[]
         )
     
-    if not config.is_provider_available("gemini"):
-        logger.warning("Gemini not available, returning empty concepts")
+    if not config.is_provider_available("openai"):
+        logger.warning("OpenAI not available, returning empty concepts")
         return ConceptExtractionResult(
             frameworks=[], constructs=[], measures=[], paradigms=[], relationships=[]
         )
@@ -150,7 +150,7 @@ async def extract_concepts_from_papers(
 
 
 async def _extract_concepts_batch(papers: List[Paper]) -> List[Dict[str, Any]]:
-    """Extract concepts from a batch of papers using Gemini.
+    """Extract concepts from a batch of papers using OpenAI.
     
     Args:
         papers: Batch of papers to process
@@ -195,7 +195,7 @@ Be specific and extract actual names from the papers. If a category is not menti
     
     response = await llm.chat(
         [Message(role="user", content=prompt)],
-        provider="gemini"
+        provider="openai"
     )
     
     # Parse response (handle markdown code fences)

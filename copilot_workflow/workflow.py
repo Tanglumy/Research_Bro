@@ -72,10 +72,10 @@ Return ONLY valid JSON in this exact format:
     try:
         response = await llm.chat(
             [Message(role="user", content=prompt)],
-            provider="gemini"
+            provider="openai"
         )
         
-        # Parse LLM response (handle Gemini's markdown code fences)
+        # Parse LLM response (handle markdown code fences)
         content = response.content.strip()
         if content.startswith("```json"):
             content = content[7:]
