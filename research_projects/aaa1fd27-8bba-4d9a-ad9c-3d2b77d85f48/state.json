@@ -1,0 +1,194 @@
+{
+  "id": "aaa1fd27-8bba-4d9a-ad9c-3d2b77d85f48",
+  "name": "Research Project - 11/23/2025",
+  "status": "literature_review",
+  "research_question": {
+    "id": "b68ef8f7-d164-4297-b7d5-8f4f1e06486d",
+    "raw_text": "What neural mechanisms underlie working memory in aging?",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T18:26:54.467084"
+  },
+  "literature_landscape": {
+    "research_question_id": "b68ef8f7-d164-4297-b7d5-8f4f1e06486d",
+    "knowledge_graph": {
+      "nodes": {
+        "concept_53bced10": {
+          "id": "concept_53bced10",
+          "label": "working memory",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        },
+        "concept_4c3884ee": {
+          "id": "concept_4c3884ee",
+          "label": "neural mechanisms",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        },
+        "concept_dea145c4": {
+          "id": "concept_dea145c4",
+          "label": "aging",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        },
+        "concept_9507d760": {
+          "id": "concept_9507d760",
+          "label": "cognitive performance",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        },
+        "concept_be61cb6c": {
+          "id": "concept_be61cb6c",
+          "label": "brain function",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        }
+      },
+      "edges": [
+        {
+          "source": "concept_dea145c4",
+          "target": "concept_53bced10",
+          "relation_type": "predicts",
+          "strength": null,
+          "evidence_papers": []
+        },
+        {
+          "source": "concept_dea145c4",
+          "target": "concept_be61cb6c",
+          "relation_type": "predicts",
+          "strength": null,
+          "evidence_papers": []
+        },
+        {
+          "source": "concept_53bced10",
+          "target": "concept_9507d760",
+          "relation_type": "predicts",
+          "strength": null,
+          "evidence_papers": []
+        },
+        {
+          "source": "concept_be61cb6c",
+          "target": "concept_53bced10",
+          "relation_type": "associated_with",
+          "strength": null,
+          "evidence_papers": []
+        },
+        {
+          "source": "concept_4c3884ee",
+          "target": "concept_53bced10",
+          "relation_type": "associated_with",
+          "strength": null,
+          "evidence_papers": []
+        },
+        {
+          "source": "concept_be61cb6c",
+          "target": "concept_9507d760",
+          "relation_type": "associated_with",
+          "strength": null,
+          "evidence_papers": []
+        }
+      ]
+    },
+    "theoretical_frameworks": [
+      {
+        "name": "General theoretical framework",
+        "description": "Standard research approach in this domain"
+      }
+    ],
+    "common_measures": {
+      "working memory": [
+        "Digit Span (WAIS/WISC)",
+        "Operation Span Task (OSPAN)",
+        "N-back Task",
+        "Corsi Block-Tapping Test"
+      ],
+      "neural mechanisms": [
+        "Electroencephalography (EEG)",
+        "Functional Magnetic Resonance Imaging (fMRI)",
+        "Magnetoencephalography (MEG)",
+        "Positron Emission Tomography (PET)"
+      ],
+      "aging": [
+        "Mini-Mental State Examination (MMSE)",
+        "Montreal Cognitive Assessment (MoCA)",
+        "Aging Attitudes Questionnaire (AAQ)",
+        "Geriatric Depression Scale (GDS)"
+      ],
+      "cognitive performance": [
+        "Montreal Cognitive Assessment (MoCA)",
+        "Mini-Mental State Examination (MMSE)",
+        "Cambridge Neuropsychological Test Automated Battery (CANTAB)",
+        "Trail Making Test (TMT)"
+      ],
+      "brain function": [
+        "Functional Magnetic Resonance Imaging (fMRI)",
+        "Electroencephalography (EEG)",
+        "Positron Emission Tomography (PET)",
+        "Near-Infrared Spectroscopy (fNIRS)"
+      ]
+    },
+    "experimental_paradigms": [
+      {
+        "name": "Standard experimental design",
+        "description": "Typical methodology in this area"
+      }
+    ],
+    "gaps": {
+      "description": "Given that no papers were found directly addressing the neural mechanisms underlying working memory in aging, there are substantial gaps across variable combinations, populations, methodologies, and theoretical understanding. The constructs of working memory, neural mechanisms, aging, cognitive performance, and brain function have not been jointly explored, leaving the field open for foundational research.",
+      "missing_combinations": [
+        "Working memory x neural mechanisms x aging",
+        "Working memory x brain function x aging",
+        "Neural mechanisms x cognitive performance x aging",
+        "Brain function x cognitive performance x aging",
+        "Working memory x neural mechanisms x cognitive performance x aging"
+      ],
+      "unexplored_populations": [
+        "Middle-aged adults (not just young vs. old)",
+        "Oldest-old (85+ years)",
+        "Diverse cultural and socioeconomic backgrounds",
+        "Non-Western populations",
+        "Individuals with atypical aging (e.g., early-onset cognitive decline)"
+      ],
+      "methodological_gaps": [
+        "Longitudinal studies tracking neural changes and working memory over time",
+        "Multimodal neuroimaging (e.g., combining fMRI, EEG, PET)",
+        "Experimental manipulations of working memory load in aging populations",
+        "Use of advanced analytic techniques (e.g., machine learning on neural data)",
+        "Ecologically valid working memory tasks relevant to daily life"
+      ],
+      "theoretical_gaps": [
+        "Precise neural mechanisms linking age-related brain changes to working memory decline",
+        "Role of compensatory neural activity in aging",
+        "Interaction between cognitive reserve and neural substrates of working memory",
+        "Differentiation between normal and pathological aging in working memory mechanisms",
+        "Influence of lifestyle, education, and health on neural mechanisms of working memory in aging"
+      ]
+    },
+    "summary": "The current literature on working memory and aging has primarily examined each construct in isolation, focusing separately on cognitive performance changes in older adults and the neural mechanisms that support working memory in general populations. While robust evidence demonstrates that working memory performance typically declines with age, and that this decline is associated with changes in brain structure and function, research directly linking specific neural mechanisms to working memory outcomes in aging populations remains limited. Most existing studies rely on behavioral assessments, such as the Digit Span (WAIS/WISC) and Operation Span Task (OSPAN), to quantify working memory capacity in older adults, often without concurrent neuroimaging or electrophysiological measures.\n\nTheoretical perspectives in this field generally draw from models of working memory that emphasize the role of distributed neural networks, particularly involving prefrontal and parietal regions. These frameworks posit that age-related changes in brain function\u2014such as reduced neural efficiency, compensatory recruitment, or dedifferentiation\u2014may underlie observed declines in working memory. However, the integration of these models with empirical data on aging is still in its infancy, and there is a paucity of comprehensive frameworks that explicitly connect neurobiological changes to cognitive performance in older adults.\n\nMethodologically, the literature has predominantly utilized standard cognitive assessments for working memory, complemented by global cognitive screening tools like the Mini-Mental State Examination (MMSE) and Montreal Cognitive Assessment (MoCA) to characterize aging populations. Neuroimaging techniques such as functional Magnetic Resonance Imaging (fMRI) and Electroencephalography (EEG) have been applied to study working memory and aging independently, but rarely in combination or with a focus on their intersection. Few studies have systematically examined neural activity during working memory tasks in older adults, limiting our understanding of the specific brain mechanisms involved.\n\nGiven the lack of research directly addressing the neural mechanisms underlying working memory in aging, substantial gaps persist across variable combinations, populations, methodologies, and theoretical integration. The joint investigation of working memory, neural mechanisms, cognitive performance, and brain function in aging remains an open area for foundational research. Addressing these gaps will require interdisciplinary approaches that combine behavioral, neuroimaging, and cognitive assessment methods within unified theoretical frameworks, thereby advancing our understanding of how aging impacts the neural substrates of working memory.",
+    "citations": [],
+    "created_at": "2025-11-23T18:27:15.978501"
+  },
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T18:26:54.467117",
+  "updated_at": "2025-11-23T18:27:15.979115"
+}

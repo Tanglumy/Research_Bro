@@ -248,16 +248,56 @@ async def run_literature_explorer(request: WorkflowRequest, background_tasks: Ba
         # Update project state
         project = state_service.update_literature_landscape(request.project_id, landscape)
         
-        return WorkflowStatusResponse(
-            status="success",
-            message="Literature exploration completed",
-            data={
-                "constructs_found": len(project.research_question.parsed_constructs),
-                "concepts_mapped": len(landscape.knowledge_graph.nodes),
-                "frameworks_identified": len(landscape.theoretical_frameworks),
-                "citations": len(landscape.citations)
+        # Convert landscape to JSON-serializable dict
+        landscape_dict = landscape.model_dump(mode='json')
+        
+        # Format response to match frontend expectations
+        return {
+            "status": "success",
+            "message": "Literature exploration completed",
+            "project_id": request.project_id,
+            "module": "literature-explorer",
+            "data": {
+                "literature_landscape": {
+                    "papers": landscape.citations,  # Citations/papers
+                    "concepts": [
+                        {
+                            "id": concept.id,
+                            "name": concept.label,
+                            "type": concept.type,
+                            "related_papers": concept.linked_papers,
+                            "measures": concept.common_measures
+                        }
+                        for concept in landscape.knowledge_graph.nodes.values()
+                    ],
+                    "relationships": [
+                        {
+                            "source": edge.source,
+                            "target": edge.target,
+                            "type": edge.relation_type
+                        }
+                        for edge in landscape.knowledge_graph.edges
+                    ],
+                    "frameworks": landscape.theoretical_frameworks,
+                    "measures": landscape.common_measures,
+                    "paradigms": landscape.experimental_paradigms,
+                    "gaps": {
+                        "description": landscape.gaps.description,
+                        "missing_combinations": landscape.gaps.missing_combinations,
+                        "unexplored_populations": landscape.gaps.unexplored_populations,
+                        "methodological_gaps": landscape.gaps.methodological_gaps,
+                        "theoretical_gaps": landscape.gaps.theoretical_gaps
+                    },
+                    "summary": landscape.summary
+                },
+                "metadata": {
+                    "constructs_found": len(project.research_question.parsed_constructs),
+                    "concepts_mapped": len(landscape.knowledge_graph.nodes),
+                    "frameworks_identified": len(landscape.theoretical_frameworks),
+                    "citations_count": len(landscape.citations)
+                }
             }
-        )
+        }
     except HTTPException:
         raise
     except Exception as e:

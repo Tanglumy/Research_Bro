@@ -1,0 +1,79 @@
+{
+  "id": "47ea6dec-d91f-4451-93cd-4e1d1a9a97fb",
+  "name": "Research Project - 2025/11/23",
+  "status": "literature_review",
+  "research_question": {
+    "id": "9ad4d4d3-dbf7-41ff-ba75-9b6690b3901c",
+    "raw_text": "test",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T18:29:24.360830"
+  },
+  "literature_landscape": {
+    "research_question_id": "9ad4d4d3-dbf7-41ff-ba75-9b6690b3901c",
+    "knowledge_graph": {
+      "nodes": {
+        "concept_233f72c1": {
+          "id": "concept_233f72c1",
+          "label": "test",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        }
+      },
+      "edges": []
+    },
+    "theoretical_frameworks": [
+      {
+        "name": "General theoretical framework",
+        "description": "Standard research approach in this domain"
+      }
+    ],
+    "common_measures": {
+      "test": [
+        "Test Scale",
+        "Test Questionnaire"
+      ]
+    },
+    "experimental_paradigms": [
+      {
+        "name": "Standard experimental design",
+        "description": "Typical methodology in this area"
+      }
+    ],
+    "gaps": {
+      "description": "No literature was found related to the research question and constructs provided. This indicates a complete gap in the research landscape for this topic. The absence of studies means that all possible combinations, populations, methodologies, and theoretical frameworks remain unexplored.",
+      "missing_combinations": [
+        "All possible combinations involving the constructs 'test' have not been studied."
+      ],
+      "unexplored_populations": [
+        "All age groups (children, adolescents, adults, older adults)",
+        "All cultural, ethnic, and national contexts",
+        "All relevant demographic or clinical populations"
+      ],
+      "methodological_gaps": [
+        "All research designs (qualitative, quantitative, mixed-methods)",
+        "All measurement tools and instruments",
+        "All data collection and analysis methods"
+      ],
+      "theoretical_gaps": [
+        "All theoretical frameworks remain unaddressed",
+        "No mechanisms or explanations have been proposed",
+        "No unanswered questions have been identified due to lack of research"
+      ]
+    },
+    "summary": "A review of the literature pertaining to the research question and constructs specified\u2014namely, \"test\" within the context of a general theoretical framework and measured by the Test Scale and Test Questionnaire\u2014reveals a complete absence of prior scholarly work. No empirical studies, theoretical discussions, or methodological explorations have been identified that directly address this topic. As such, the current state of research is characterized by a comprehensive void, with no foundational findings or established knowledge in this domain.\n\nGiven the lack of existing literature, there are no prevailing theoretical perspectives that have been applied to the construct of \"test\" in this context. Theoretical frameworks that typically guide research in related areas\u2014such as cognitive, behavioral, or sociocultural models\u2014have not yet been adapted or extended to this specific topic. This absence underscores an opportunity for future research to conceptualize and ground the construct within an appropriate theoretical orientation.\n\nSimilarly, common methodological approaches, including quantitative, qualitative, and mixed-methods designs, have not been utilized or reported in relation to the \"test\" construct as defined here. The Test Scale and Test Questionnaire remain unvalidated and unexamined, with no data available regarding their psychometric properties, application contexts, or interpretive frameworks.\n\nThe most salient feature of the current literature landscape is the pronounced research gap: no studies have explored any aspect of the research question, across any populations, settings, or methodologies. This uncharted territory presents a significant opportunity for pioneering scholarship to define, operationalize, and investigate the construct from both theoretical and empirical perspectives, thereby laying the groundwork for future inquiry and application.",
+    "citations": [],
+    "created_at": "2025-11-23T18:29:42.817458"
+  },
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T18:29:24.360967",
+  "updated_at": "2025-11-23T18:29:42.817792"
+}

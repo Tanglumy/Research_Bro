@@ -1,0 +1,21 @@
+{
+  "id": "8543d318-6c2a-4815-920a-bfd3a995119a",
+  "name": "Research Project - 11/23/2025",
+  "status": "created",
+  "research_question": {
+    "id": "c18c4f11-53e6-4ba0-915c-51636ad29085",
+    "raw_text": "Generate stimuli for a Stroop test variant using emotional words.",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T18:16:40.842579"
+  },
+  "literature_landscape": null,
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T18:16:40.842658",
+  "updated_at": "2025-11-23T18:16:40.842660"
+}

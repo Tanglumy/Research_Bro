@@ -1,0 +1,168 @@
+{
+  "id": "bc0ef4ab-31ff-4a41-9ad7-498542862339",
+  "name": "Research Project - 11/23/2025",
+  "status": "literature_review",
+  "research_question": {
+    "id": "808ff8a7-0016-4a12-a99a-f22855668629",
+    "raw_text": "How does sleep deprivation affect decision making under uncertainty?",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T18:23:27.247403"
+  },
+  "literature_landscape": {
+    "research_question_id": "808ff8a7-0016-4a12-a99a-f22855668629",
+    "knowledge_graph": {
+      "nodes": {
+        "concept_6b0dddc0": {
+          "id": "concept_6b0dddc0",
+          "label": "Sleep Deprivation",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        },
+        "concept_20aabc6a": {
+          "id": "concept_20aabc6a",
+          "label": "Decision Making",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        },
+        "concept_4034e4f9": {
+          "id": "concept_4034e4f9",
+          "label": "Uncertainty",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        },
+        "concept_dc9c2047": {
+          "id": "concept_dc9c2047",
+          "label": "Cognitive Performance",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        },
+        "concept_89af119e": {
+          "id": "concept_89af119e",
+          "label": "Risk Assessment",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        },
+        "concept_6e00c305": {
+          "id": "concept_6e00c305",
+          "label": "Judgment",
+          "type": "theoretical_construct",
+          "linked_papers": [],
+          "common_measures": [],
+          "operationalizations": [],
+          "metadata": {}
+        }
+      },
+      "edges": []
+    },
+    "theoretical_frameworks": [
+      {
+        "name": "General theoretical framework",
+        "description": "Standard research approach in this domain"
+      }
+    ],
+    "common_measures": {
+      "Sleep Deprivation": [
+        "Epworth Sleepiness Scale (ESS)",
+        "Pittsburgh Sleep Quality Index (PSQI)",
+        "Karolinska Sleepiness Scale (KSS)",
+        "Stanford Sleepiness Scale (SSS)"
+      ],
+      "Decision Making": [
+        "Iowa Gambling Task (IGT)",
+        "Melbourne Decision Making Questionnaire (MDMQ)",
+        "Adult Decision-Making Competence (A-DMC)",
+        "Decision Outcome Inventory (DOI)"
+      ],
+      "Uncertainty": [
+        "Intolerance of Uncertainty Scale (IUS)",
+        "Uncertainty Response Scale (URS)",
+        "Ambiguity Tolerance Scale (ATS)",
+        "Need for Closure Scale (NFCS)"
+      ],
+      "Cognitive Performance": [
+        "Montreal Cognitive Assessment (MoCA)",
+        "Mini-Mental State Examination (MMSE)",
+        "Wechsler Adult Intelligence Scale (WAIS)",
+        "Trail Making Test (TMT)"
+      ],
+      "Risk Assessment": [
+        "Domain-Specific Risk-Taking Scale (DOSPERT)",
+        "Balloon Analogue Risk Task (BART)",
+        "Risk Propensity Scale (RPS)",
+        "Barratt Impulsiveness Scale (BIS)"
+      ],
+      "Judgment": [
+        "Cognitive Reflection Test (CRT)",
+        "Judgment of Line Orientation Test (JLO)",
+        "Heuristics and Biases Tasks (e.g., Linda Problem)",
+        "Social Judgment Questionnaire (SJQ)"
+      ]
+    },
+    "experimental_paradigms": [
+      {
+        "name": "Standard experimental design",
+        "description": "Typical methodology in this area"
+      }
+    ],
+    "gaps": {
+      "description": "The research landscape on how sleep deprivation affects decision making under uncertainty is currently sparse, with no existing literature directly addressing the interplay between these constructs. This presents several gaps in variable combinations, populations, methodologies, and theoretical understanding.",
+      "missing_combinations": [
+        "Sleep Deprivation + Decision Making Under Uncertainty",
+        "Sleep Deprivation + Risk Assessment + Uncertainty",
+        "Sleep Deprivation + Judgment Under Uncertainty",
+        "Cognitive Performance + Decision Making Under Uncertainty (in the context of sleep deprivation)",
+        "Sleep Deprivation + Cultural Influences on Uncertain Decision Making"
+      ],
+      "unexplored_populations": [
+        "Adolescents and children",
+        "Older adults (65+)",
+        "Non-Western cultures (e.g., Asian, African populations)",
+        "Shift workers and night shift employees",
+        "Clinical populations (e.g., individuals with insomnia, ADHD, or anxiety disorders)",
+        "High-stress professions (e.g., healthcare, military, emergency responders)"
+      ],
+      "methodological_gaps": [
+        "Longitudinal studies tracking chronic versus acute sleep deprivation effects",
+        "Experimental designs manipulating both sleep and uncertainty levels",
+        "Ecologically valid decision making tasks simulating real-world uncertainty",
+        "Use of objective sleep measures (e.g., actigraphy, polysomnography)",
+        "Inclusion of neuroimaging or physiological measures to assess underlying mechanisms",
+        "Cross-cultural comparative studies"
+      ],
+      "theoretical_gaps": [
+        "Mechanisms linking sleep deprivation to impaired risk assessment under uncertainty",
+        "Role of emotional regulation in sleep-deprived uncertain decision making",
+        "Interaction between cognitive fatigue and uncertainty tolerance",
+        "Differentiation between types of uncertainty (e.g., risk vs. ambiguity) and their susceptibility to sleep loss",
+        "Potential moderating factors (e.g., personality traits, prior experience, stress resilience)"
+      ]
+    },
+    "summary": "The current literature examining the impact of sleep deprivation on decision making primarily focuses on general cognitive performance, risk assessment, and judgment, with a growing body of research indicating that inadequate sleep impairs executive functioning and increases susceptibility to risky choices. However, studies explicitly addressing decision making under conditions of uncertainty remain limited. Most existing work investigates either the effects of sleep deprivation on decision quality or the cognitive processes underlying uncertainty, but rarely the intersection of these domains. This fragmentation has resulted in a lack of comprehensive understanding regarding how sleep loss specifically alters decision strategies when outcomes are ambiguous or unpredictable.\n\nTheoretical perspectives in this area often draw from dual-process models, which distinguish between intuitive, heuristic-based (System 1) and analytical, deliberative (System 2) thinking. Sleep deprivation is theorized to impair System 2 processes, thereby increasing reliance on automatic or impulsive responses, which may be particularly detrimental in uncertain contexts. Additionally, theories of risk sensitivity and the somatic marker hypothesis have been used to explain observed shifts in risk-taking behavior following sleep loss, suggesting that impaired emotional regulation and feedback processing may underlie poor decision outcomes.\n\nMethodologically, research in this field frequently employs standardized self-report tools such as the Epworth Sleepiness Scale (ESS) and Pittsburgh Sleep Quality Index (PSQI) to assess sleep deprivation, alongside behavioral tasks like the Iowa Gambling Task (IGT) and the Melbourne Decision Making Questionnaire (MDMQ) to measure decision-making performance. Instruments such as the Intolerance of Uncertainty Scale (IUS) and Uncertainty Response Scale (URS) are less commonly integrated, resulting in a fragmented operationalization of uncertainty. Most studies utilize laboratory-based, within-subjects designs, often with convenience samples of young adults, which may limit generalizability and ecological validity.\n\nDespite these advances, significant research gaps remain. Notably, there is a paucity of studies directly examining the combined effects of sleep deprivation and uncertainty on decision making, and few have systematically manipulated or measured individual differences in uncertainty tolerance. The existing literature lacks theoretical integration and methodological rigor in operationalizing uncertainty within sleep deprivation paradigms. Furthermore, diverse populations and real-world decision contexts are underrepresented, highlighting the need for future research to address these limitations and elucidate the mechanisms by which sleep deprivation influences decision making under uncertainty.",
+    "citations": [],
+    "created_at": "2025-11-23T18:24:00.953139"
+  },
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T18:23:27.247431",
+  "updated_at": "2025-11-23T18:24:00.954151"
+}

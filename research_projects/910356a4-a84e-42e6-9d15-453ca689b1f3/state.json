@@ -1,0 +1,21 @@
+{
+  "id": "910356a4-a84e-42e6-9d15-453ca689b1f3",
+  "name": "Research Project - 11/23/2025",
+  "status": "created",
+  "research_question": {
+    "id": "4b401d56-ff32-4374-9f83-fae5935c61ac",
+    "raw_text": "How does attachment anxiety influence emotion regulation strategies?",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T10:24:08.793856"
+  },
+  "literature_landscape": null,
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T10:24:08.793891",
+  "updated_at": "2025-11-23T10:24:08.793892"
+}
