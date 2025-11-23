@@ -51,12 +51,12 @@ async def test_full_pipeline_end_to_end():
         project, m1_summary = await run_m1_summary(project)
         
         logger.info(f"Module 1 Complete:")
-        logger.info(f"  Papers: {m1_summary['num_papers']}")
-        logger.info(f"  Concepts: {m1_summary['num_concepts']}")
-        logger.info(f"  Graph Nodes: {m1_summary['graph_nodes']}")
-        logger.info(f"  Research Gaps: {m1_summary['num_gaps']}")
+        logger.info(f"  Papers: {m1_summary.get('papers', 0)}")
+        logger.info(f"  Concepts: {m1_summary.get('concepts', {})}")
+        logger.info(f"  Graph: {m1_summary.get('graph', {})}")
+        logger.info(f"  Gaps: {m1_summary.get('gaps', {})}")
         
-        assert m1_summary['num_papers'] > 0, "Module 1 should retrieve papers"
+        assert m1_summary.get('papers', 0) > 0, "Module 1 should retrieve papers"
         
         # Module 2: Hypothesis Generator
         logger.info("\n--- Running Module 2: Hypothesis Generator ---")
@@ -133,7 +133,7 @@ async def test_data_flow_validation():
         # Check Module 1 outputs are available to Module 2
         logger.info("\nValidating Module 1 → Module 2 interface:")
         logger.info(f"  ✓ Has research question: {project.rq is not None}")
-        logger.info(f"  ✓ Has papers: {project.papers is not None and len(project.papers) > 0}")
+        logger.info(f"  ✓ Papers retrieved: {m1_summary.get('papers', 0)} (from Module 1 summary)")
         logger.info(f"  ✓ Has concepts: {project.concepts is not None}")
         logger.info(f"  ✓ Has audit log: {len(project.audit_log) > 0}")
         

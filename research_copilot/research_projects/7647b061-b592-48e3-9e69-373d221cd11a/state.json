@@ -1,0 +1,21 @@
+{
+  "id": "7647b061-b592-48e3-9e69-373d221cd11a",
+  "name": "Test Study",
+  "status": "created",
+  "research_question": {
+    "id": "0e14d063-6ed6-4aa7-aace-0ff529c08bb0",
+    "raw_text": "How does stress affect cognitive performance?",
+    "parsed_constructs": [],
+    "domain": null,
+    "notes": null,
+    "created_at": "2025-11-23T08:59:03.536565"
+  },
+  "literature_landscape": null,
+  "hypothesis_set": null,
+  "experiment_design": null,
+  "stimulus_bank": null,
+  "simulation_results": null,
+  "metadata": {},
+  "created_at": "2025-11-23T08:59:03.537105",
+  "updated_at": "2025-11-23T08:59:03.537108"
+}

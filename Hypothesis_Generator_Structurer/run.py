@@ -197,6 +197,10 @@ async def run_with_summary(project: ProjectState, num_hypotheses: int = 5) -> tu
     
     # Build summary
     summary = {
+        "num_hypotheses": len(result_project.hypotheses),
+        "validated": valid_count,
+        "export_formats": ["json", "markdown_table", "report"],
+        # Backwards/extended metrics
         "hypotheses_generated": len(result_project.hypotheses),
         "valid_hypotheses": valid_count,
         "avg_quality_score": avg_score,

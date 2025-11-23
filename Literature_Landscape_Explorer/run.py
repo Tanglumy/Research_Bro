@@ -67,6 +67,7 @@ async def run(project: ProjectState) -> ProjectState:
             limit=20
         )
         logger.info(f"Retrieved {len(papers)} papers")
+        project.papers = papers
         
         if not papers:
             project.audit_log.append(AuditEntry(

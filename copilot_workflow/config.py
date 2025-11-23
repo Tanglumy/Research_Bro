@@ -114,8 +114,8 @@ class ConfigManager:
                             value = value[1:-1]
                         elif value.startswith("'") and value.endswith("'"):
                             value = value[1:-1]
-                        # Only set if not already in environment
-                        if key not in os.environ:
+                        # Set in environment (override if empty or missing)
+                        if key not in os.environ or not os.environ.get(key):
                             os.environ[key] = value
         except Exception as e:
             logger.warning(f"Failed to load .env file: {e}")

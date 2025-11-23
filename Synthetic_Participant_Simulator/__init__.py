@@ -1,38 +1,24 @@
-from __future__ import annotations
+"""Synthetic Participant Simulator Module.
 
-from typing import List
+Generates synthetic participant data to validate experimental designs.
+Provides persona modeling, response simulation, and diagnostic feedback.
 
-from copilot_workflow.schemas import (
-    ProjectState,
-    Persona,
-    SyntheticResponse,
-    SyntheticParticipant,
-    SimulationSummary,
-    AuditEntry,
-)
+Module 5 of the Research Copilot workflow.
+"""
 
+from .run import run, SyntheticParticipantSimulator
+from .persona_modeling import PersonaGenerator, create_personas
+from .response_simulator import ResponseSimulator, simulate_responses
+from .diagnostics import DiagnosticsEngine
 
-async def run(project: ProjectState) -> ProjectState:
-    """Stub simulation module: create one synthetic participant with flat responses."""
-    responses: List[SyntheticResponse] = []
-    for stim in project.stimuli:
-        responses.append(
-            SyntheticResponse(
-                stimulus_id=stim.id,
-                condition_id=stim.metadata.assigned_condition or "",
-                dv_scores={"Primary DV": 3.5},
-                open_text="Simulated response",
-            )
-        )
-    participant = SyntheticParticipant(
-        persona=Persona(attachment_style="secure", culture="collectivistic"),
-        responses=responses,
-    )
-    project.simulation = SimulationSummary(
-        dv_summary={"Primary DV": {"Condition A": 3.0, "Condition B": 3.5}},
-        dead_vars=[],
-        weak_effects=[],
-        sample_responses=[r.open_text for r in responses if r.open_text],
-    )
-    project.audit_log.append(AuditEntry(message="Simulation module created synthetic participant sample", level="info"))
-    return project
+__all__ = [
+    'run',
+    'SyntheticParticipantSimulator',
+    'PersonaGenerator',
+    'create_personas',
+    'ResponseSimulator',
+    'simulate_responses',
+    'DiagnosticsEngine'
+]
+
+__version__ = '1.0.0'
