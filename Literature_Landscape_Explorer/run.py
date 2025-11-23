@@ -198,6 +198,14 @@ async def run_with_summary(project: ProjectState) -> tuple:
             "top_constructs": lit_entry.details.get("top_constructs", [])
         }
     else:
-        summary = {"error": "No summary available"}
+        # Ensure all keys exist even on error
+        summary = {
+            "papers": 0,
+            "concepts": {},
+            "graph": {},
+            "gaps": {},
+            "top_constructs": [],
+            "error": "No summary available"
+        }
     
     return project, summary

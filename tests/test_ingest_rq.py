@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test script for Gemini API and research question ingestion."""
+"""Test script for OpenAI API and research question ingestion."""
 
 import asyncio
 import sys
@@ -18,31 +18,31 @@ from spoon_ai.schema import Message
 from copilot_workflow.workflow import run_workflow
 
 
-async def test_gemini_api():
-    """Test 0: Verify Gemini API key works."""
+async def test_openai_api():
+    """Test 0: Verify OpenAI API key works."""
     print("\n" + "="*80)
-    print("Test 0: Gemini API Connection")
+    print("Test 0: OpenAI API Connection")
     print("="*80)
     
     try:
         llm = LLMManager(ConfigurationManager())
         msg = [Message(role="user", content="Say hello in one word")]
-        response = await llm.chat(msg, provider="gemini")
+        response = await llm.chat(msg, provider="openai")
         
-        print("\n✓ Gemini API Connected Successfully")
+        print("\n✓ OpenAI API Connected Successfully")
         print(f"Response: {response.content}\n")
         return True
     except Exception as e:
-        print(f"\n✗ Gemini API Failed: {str(e)}")
+        print(f"\n✗ OpenAI API Failed: {str(e)}")
         import traceback
         traceback.print_exc()
         return False
 
 
-async def test_gemini_construct_extraction():
-    """Test 1: Test Gemini's ability to extract research constructs."""
+async def test_openai_construct_extraction():
+    """Test 1: Test OpenAI's ability to extract research constructs."""
     print("\n" + "="*80)
-    print("Test 1: Gemini Construct Extraction")
+    print("Test 1: OpenAI Construct Extraction")
     print("="*80)
     
     test_query = "How does attachment anxiety influence emotion regulation strategies?"
@@ -71,11 +71,11 @@ Return ONLY valid JSON in this exact format:
         
         response = await llm.chat(
             [Message(role="user", content=prompt)],
-            provider="gemini"
+            provider="openai"
         )
         
         # Debug: Show raw response
-        print(f"Raw Gemini Response:\n{response.content}\n")
+        print(f"Raw OpenAI Response:\n{response.content}\n")
         
         import json
         # Strip markdown code fences if present
@@ -90,7 +90,7 @@ Return ONLY valid JSON in this exact format:
         
         parsed_data = json.loads(content)
         
-        print("✓ Gemini Successfully Extracted Constructs\n")
+        print("✓ OpenAI Successfully Extracted Constructs\n")
         print(f"Constructs: {parsed_data.get('constructs')}")
         print(f"Domain: {parsed_data.get('domain')}")
         print(f"Potential IVs: {parsed_data.get('potential_iv')}")
@@ -146,19 +146,19 @@ async def test_basic_workflow():
 async def main():
     """Run tests sequentially: API -> Construct Extraction -> Full Workflow."""
     print("\n" + "#"*80)
-    print("# Gemini API & Research Question Ingestion Tests")
+    print("# OpenAI API & Research Question Ingestion Tests")
     print("#"*80)
     
-    # Test 0: Verify Gemini API works
-    api_works = await test_gemini_api()
+    # Test 0: Verify OpenAI API works
+    api_works = await test_openai_api()
     if not api_works:
-        print("\n❌ Gemini API not working. Stopping tests.")
+        print("\n❌ OpenAI API not working. Stopping tests.")
         return
     
     # Test 1: Test construct extraction specifically
-    extraction_works = await test_gemini_construct_extraction()
+    extraction_works = await test_openai_construct_extraction()
     if not extraction_works:
-        print("\n❌ Construct extraction failed. Check Gemini response format.")
+        print("\n❌ Construct extraction failed. Check OpenAI response format.")
         return
     
     # Test 2: Full workflow integration
