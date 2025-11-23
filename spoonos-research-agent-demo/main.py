@@ -1,0 +1,1 @@
+"A tool to fetch the current price of a cryptocurrency from the CoinCap API."
