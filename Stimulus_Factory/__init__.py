@@ -1,33 +1,59 @@
-from __future__ import annotations
+"""Module 4: Stimulus Factory
 
-from typing import List
+Generates balanced, annotated experimental stimuli with:
+- Scenario/vignette generation with systematic variation
+- Automatic metadata annotation (valence, intensity, themes)
+- Balance optimization across conditions
+- Content filtering for safety
 
-from copilot_workflow.schemas import (
-    ProjectState,
-    StimulusItem,
-    StimulusMetadata,
-    StimulusVariant,
-    AuditEntry,
+Main Functions:
+- run(project) -> ProjectState: Main orchestration function
+- run_with_summary(project) -> (ProjectState, summary): Run with metrics
+- generate_stimuli(design) -> List[StimulusItem]: Generate stimuli
+- annotate_stimuli(stimuli) -> List[StimulusItem]: Add metadata
+- balance_stimuli_across_conditions(stimuli) -> List[StimulusItem]: Balance
+- filter_stimuli(stimuli) -> (kept, flagged): Content filtering
+"""
+
+from .run import run, run_with_summary, Module4Error
+from .stimulus_generator import (
+    generate_stimuli,
+    StimulusGenerationError,
+)
+from .metadata_annotator import (
+    annotate_stimuli,
+    get_metadata_summary,
+    MetadataAnnotationError,
+)
+from .balance_optimizer import (
+    balance_stimuli_across_conditions,
+    calculate_balance_score,
+    BalanceOptimizationError,
+)
+from .content_filter import (
+    filter_stimuli,
+    get_filter_summary,
+    ContentFilterError,
 )
 
-
-async def run(project: ProjectState) -> ProjectState:
-    """Stub stimulus module: generate one stimulus per condition with metadata."""
-    stimuli: List[StimulusItem] = []
-    if project.design:
-        for cond in project.design.conditions:
-            stimuli.append(
-                StimulusItem(
-                    text=f"Scenario tailored to {cond.label}",
-                    metadata=StimulusMetadata(
-                        valence="neutral",
-                        intensity="medium",
-                        ambiguity_level="low",
-                        assigned_condition=cond.id,
-                    ),
-                    variants=[StimulusVariant(variant_type="original", text=f"Original for {cond.label}")],
-                )
-            )
-    project.stimuli = stimuli
-    project.audit_log.append(AuditEntry(message="Stimulus module generated placeholder stimuli", level="info"))
-    return project
+__all__ = [
+    # Main functions
+    "run",
+    "run_with_summary",
+    "Module4Error",
+    # Stimulus generation
+    "generate_stimuli",
+    "StimulusGenerationError",
+    # Metadata annotation
+    "annotate_stimuli",
+    "get_metadata_summary",
+    "MetadataAnnotationError",
+    # Balance optimization
+    "balance_stimuli_across_conditions",
+    "calculate_balance_score",
+    "BalanceOptimizationError",
+    # Content filtering
+    "filter_stimuli",
+    "get_filter_summary",
+    "ContentFilterError",
+]

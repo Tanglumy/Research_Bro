@@ -117,11 +117,18 @@ class StimulusItem(BaseModel):
     metadata: StimulusMetadata = Field(default_factory=StimulusMetadata)
     variants: List[StimulusVariant] = Field(default_factory=list)
 
+    @property
+    def assigned_condition(self) -> Optional[str]:
+        """Convenience accessor for the stimulus' assigned condition."""
+        return self.metadata.assigned_condition
+
 
 class Persona(BaseModel):
     attachment_style: Optional[str] = None
     self_criticism: Optional[str] = None
     culture: Optional[str] = None
+    personality_traits: Dict[str, Any] = Field(default_factory=dict)
+    demographic_info: Dict[str, Any] = Field(default_factory=dict)
     other_traits: Dict[str, Any] = Field(default_factory=dict)
 
 
@@ -156,6 +163,7 @@ class AuditEntry(BaseModel):
 class ProjectState(BaseModel):
     project_id: str = Field(default_factory=lambda: _uid("proj"))
     rq: Optional[ResearchQuestion] = None
+    papers: List[Any] = Field(default_factory=list)
     concepts: Dict[str, List[Any]] = Field(default_factory=lambda: {"nodes": [], "edges": []})
     hypotheses: List[Hypothesis] = Field(default_factory=list)
     design: Optional[ExperimentDesign] = None
