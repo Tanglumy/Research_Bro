@@ -24,24 +24,41 @@ from models import (
     SimulationResults
 )
 from state_service import ProjectStateService
-from modules import LiteratureExplorer
+from modules import (
+    LiteratureExplorer,
+    HypothesisEngine,
+    DesignEngine,
+    StimulusEngine,
+    SimulationEngine
+)
 
 logger = logging.getLogger(__name__)
 
 # Global state
 state_service: Optional[ProjectStateService] = None
 llm_manager: Optional[LLMManager] = None
+hypothesis_engine: Optional[HypothesisEngine] = None
+design_engine: Optional[DesignEngine] = None
+stimulus_engine: Optional[StimulusEngine] = None
+simulation_engine: Optional[SimulationEngine] = None
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan manager."""
-    global state_service, llm_manager
+    global state_service, llm_manager, hypothesis_engine, design_engine, stimulus_engine, simulation_engine
     
     # Startup
     logger.info("Initializing Research Copilot Backend...")
     state_service = ProjectStateService()
     llm_manager = LLMManager(ConfigurationManager())
+    
+    # Initialize engines
+    hypothesis_engine = HypothesisEngine(llm_manager)
+    design_engine = DesignEngine(llm_manager)
+    stimulus_engine = StimulusEngine(llm_manager)
+    simulation_engine = SimulationEngine(llm_manager)
+    
     logger.info("Research Copilot Backend ready")
     
     yield
@@ -325,12 +342,18 @@ async def run_hypothesis_engine(request: WorkflowRequest):
         if not project.literature_landscape:
             raise HTTPException(status_code=400, detail="Run literature explorer first")
         
-        # TODO: Implement hypothesis generation
-        # For now, return placeholder
+        # Generate hypotheses
+        hypothesis_set = await hypothesis_engine.generate_hypotheses(project.literature_landscape)
+        
+        # Update project state
+        project.hypothesis_set = hypothesis_set
+        project.update_status(ProjectStatus.HYPOTHESIS_GENERATION)
+        state_service.save_project(project)
+        
         return WorkflowStatusResponse(
-            status="pending",
-            message="Hypothesis engine not yet implemented",
-            data={"note": "Module implementation in progress"}
+            status="success",
+            message="Hypotheses generated successfully",
+            data=hypothesis_set.dict()
         )
     except HTTPException:
         raise
@@ -359,11 +382,18 @@ async def run_design_engine(request: WorkflowRequest):
         if not project.hypothesis_set:
             raise HTTPException(status_code=400, detail="Run hypothesis engine first")
         
-        # TODO: Implement design building
+        # Generate design
+        design = await design_engine.generate_design(project.hypothesis_set)
+        
+        # Update project state
+        project.experiment_design = design
+        project.update_status(ProjectStatus.DESIGN_BUILDING)
+        state_service.save_project(project)
+        
         return WorkflowStatusResponse(
-            status="pending",
-            message="Design engine not yet implemented",
-            data={"note": "Module implementation in progress"}
+            status="success",
+            message="Experimental design generated successfully",
+            data=design.dict()
         )
     except HTTPException:
         raise
@@ -392,11 +422,18 @@ async def run_stimulus_engine(request: WorkflowRequest):
         if not project.experiment_design:
             raise HTTPException(status_code=400, detail="Run design engine first")
         
-        # TODO: Implement stimulus generation
+        # Generate stimuli
+        stimulus_bank = await stimulus_engine.generate_stimuli(project.experiment_design)
+        
+        # Update project state
+        project.stimulus_bank = stimulus_bank
+        project.update_status(ProjectStatus.STIMULUS_GENERATION)
+        state_service.save_project(project)
+        
         return WorkflowStatusResponse(
-            status="pending",
-            message="Stimulus engine not yet implemented",
-            data={"note": "Module implementation in progress"}
+            status="success",
+            message="Stimuli generated successfully",
+            data=stimulus_bank.dict()
         )
     except HTTPException:
         raise
@@ -425,11 +462,21 @@ async def run_simulation_engine(request: WorkflowRequest):
         if not project.stimulus_bank:
             raise HTTPException(status_code=400, detail="Run stimulus engine first")
         
-        # TODO: Implement simulation
+        # Run simulation
+        results = await simulation_engine.run_simulation(
+            project.experiment_design,
+            project.stimulus_bank
+        )
+        
+        # Update project state
+        project.simulation_results = results
+        project.update_status(ProjectStatus.SIMULATION)
+        state_service.save_project(project)
+        
         return WorkflowStatusResponse(
-            status="pending",
-            message="Simulation engine not yet implemented",
-            data={"note": "Module implementation in progress"}
+            status="success",
+            message="Simulation completed successfully",
+            data=results.dict()
         )
     except HTTPException:
         raise

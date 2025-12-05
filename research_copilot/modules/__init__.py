@@ -9,5 +9,15 @@ Provides the five core capability modules for the research copilot:
 """
 
 from .literature_explorer import LiteratureExplorer
+from .hypothesis_engine import HypothesisEngine
+from .design_engine import DesignEngine
+from .stimulus_engine import StimulusEngine
+from .simulation_engine import SimulationEngine
 
-__all__ = ['LiteratureExplorer']
+__all__ = [
+    'LiteratureExplorer',
+    'HypothesisEngine',
+    'DesignEngine',
+    'StimulusEngine',
+    'SimulationEngine'
+]

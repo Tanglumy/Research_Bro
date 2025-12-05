@@ -25,14 +25,16 @@ from models import (
 )
 
 
-# Import Google Scholar search (fast SerpAPI-based search)
+# Import OpenAlex paper retrieval (free, no API key needed)
 try:
-    from .google_scholar_search import search_multiple_queries
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent / 'Literature_Landscape_Explorer'))
+    from paper_retrieval import retrieve_papers
     SEARCH_AVAILABLE = True
 except ImportError:
     SEARCH_AVAILABLE = False
-    logging.debug("Google Scholar search not available.")
-
+    logging.debug("OpenAlex paper retrieval not available.")
 logger = logging.getLogger(__name__)
 
 
@@ -214,9 +216,8 @@ Only include well-established theoretical relationships."""
                 # Continue without relationships - knowledge graph will have nodes but no edges
         
         return graph
-    
     async def _search_literature(self, constructs: List[str]) -> Dict[str, Any]:
-        """Search academic literature for constructs using Google Scholar.
+        """Search academic literature for constructs using OpenAlex (free API).
         
         Args:
             constructs: List of constructs to search
@@ -225,26 +226,37 @@ Only include well-established theoretical relationships."""
             Dictionary with search results and citations
         """
         if not SEARCH_AVAILABLE:
-            logger.debug("Google Scholar search not available, using mock data")
+            logger.debug("OpenAlex paper retrieval not available, using empty data")
             return {"papers": [], "citations": []}
         
-        # Build search queries from constructs
-        search_queries = []
-        
-        # Individual construct searches (top 3)
-        for construct in constructs[:3]:
-            search_queries.append(construct)
-        
-        # Combination search if multiple constructs
-        if len(constructs) >= 2:
-            search_queries.append(f"{constructs[0]} AND {constructs[1]}")
-        
         try:
-            # Use the Google Scholar search
-            results = await search_multiple_queries(search_queries, papers_per_query=10)
-            logger.info(f"Found {len(results.get('papers', []))} papers from Google Scholar")
-            return results
+            # Use free OpenAlex API to retrieve papers
+            papers = await retrieve_papers(constructs, limit=20)
+            
+            # Convert Paper objects to dict format with proper type conversion
+            # LiteratureLandscape expects Dict[str, str], but Paper.to_dict() returns mixed types
+            citations = []
+            for paper in papers:
+                paper_dict = paper.to_dict()
+                # Convert authors from List[str] to comma-separated string
+                if isinstance(paper_dict.get('authors'), list):
+                    paper_dict['authors'] = ', '.join(paper_dict['authors'])
+                # Convert year from int to string
+                if isinstance(paper_dict.get('year'), int):
+                    paper_dict['year'] = str(paper_dict['year'])
+                # Convert all other non-string values to strings for consistency
+                paper_dict = {k: str(v) if v is not None else "" for k, v in paper_dict.items()}
+                citations.append(paper_dict)
+            
+            logger.info(f"Found {len(citations)} papers from OpenAlex (free API)")
+            
+            return {
+                "papers": citations,
+                "citations": citations
+            }
         except Exception as e:
+            logger.error(f"OpenAlex paper retrieval failed: {e}")
+            return {"papers": [], "citations": []}
             logger.error(f"Google Scholar search failed: {e}")
             return {"papers": [], "citations": []}
     
